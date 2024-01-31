@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Projects  from './pages/Projects'
 import Error from './pages/Error'
 import Header from './components/Header'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path='/projects' element={<Projects/>}/>
         <Route path='/*' element={<Error/>}/>
       </Routes>
+      <Footer/>
     </Router>
   )
 }
