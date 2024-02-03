@@ -5,7 +5,7 @@ import {getDownloadURL, getStorage, uploadBytesResumable, ref} from 'firebase/st
 import {app} from '../firebase'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css'
-import { updateFailure, updateStart, updateSuccess, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'
+import { updateFailure, updateStart, updateSuccess, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutSuccess } from '../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
 import {HiOutlineExclamationCircle} from 'react-icons/hi'
 
@@ -83,11 +83,11 @@ uploadTask.on(
   }
 )
 };
-
+//form data for update
 const handleChange = (e) => {
   setFormData({...formData, [e.target.id]: e.target.value});
 };
-
+//update functionality
 const handleSubmit = async (e) => {
   e.preventDefault();
   setUpdateUserError(null);
@@ -141,6 +141,23 @@ const handleDeleteUser = async () => {
   } catch (error) {
     dispatch(deleteUserFailure(error.message));
   }
+};
+//signout functionality
+const handleSignOut = async () => {
+  try {
+    const res = await fetch('/api/user/signout',{
+      method: 'POST',
+    })
+    const data = await res.json();
+    if (!res.ok) {
+      console.log(data.message);
+    }
+    else{
+      dispatch(signOutSuccess());
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
 }
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
@@ -180,7 +197,7 @@ const handleDeleteUser = async () => {
         </form>
         <div className='text-red-500 mt-6 flex justify-between'>
             <span onClick={()=>setShowModal(true)} className='cursor-pointer'>Delete Account</span>
-            <span className='cursor-pointer'>Sign Out</span>
+            <span onClick={handleSignOut} className='cursor-pointer'>Sign Out</span>
         </div>
         {
           updateUserSuccess && (
@@ -203,7 +220,7 @@ const handleDeleteUser = async () => {
             </Alert>
           )
         }
-
+{/* //delete ui */}
         <Modal show={showModal}
         onClose={()=>setShowModal(false)}
         popup

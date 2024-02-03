@@ -4,6 +4,8 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon, FaSun } from 'react-icons/fa'
 import { useSelector,useDispatch } from 'react-redux'
 import { toggleTheme } from '../redux/theme/themeSlice'
+import { signOutSuccess } from '../redux/user/userSlice'
+
 
 const Header = () => {
   // this is for locating the path (which path currently I am in!!!)
@@ -11,6 +13,24 @@ const Header = () => {
   const dispatch = useDispatch();
   const {currentUser} = useSelector(state=> state.user)
   const {theme} = useSelector(state=> state.theme)
+
+//signout functionality
+const handleSignOut = async () => {
+  try {
+    const res = await fetch('/api/user/signout',{
+      method: 'POST',
+    })
+    const data = await res.json();
+    if (!res.ok) {
+      console.log(data.message);
+    }
+    else{
+      dispatch(signOutSuccess());
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
+};
 
   return (
     <Navbar className='border-b-2'>
@@ -57,7 +77,7 @@ const Header = () => {
                     <DropdownItem>Profile</DropdownItem>
                   </Link>
                   <DropdownDivider/>
-                  <DropdownItem>Sign out</DropdownItem>
+                  <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>
               </Dropdown>
             ) : (
               <Link to={'/sign-in'}>
