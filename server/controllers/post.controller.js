@@ -43,9 +43,9 @@ export const getposts = async (req,res,next) => {
 
         //tottal posts
         const totalPosts = await Post.countDocuments();
-
+        //date
         const now = new Date();
-
+        //last month info
         const oneMonthAgo = new Date(
             now.getFullYear(),
             now.getMonth() - 1,
@@ -61,7 +61,7 @@ export const getposts = async (req,res,next) => {
             totalPosts,
             lastMonthPosts,
         })
-        
+
     } catch (error) {
         next(error);
     }
