@@ -1,5 +1,5 @@
 import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react'
-import { HiArrowSmRight, HiDocumentText, HiUser } from 'react-icons/hi'
+import { HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiUser } from 'react-icons/hi'
 import { useState, useEffect } from 'react'
 import {Link, useLocation} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
@@ -41,6 +41,7 @@ const handleSignOut = async () => {
     <Sidebar className='w-full md:w-56'>
         <SidebarItems>
             <SidebarItemGroup className='flex flex-col gap-1'>
+              {/* profile */}
                 <Link to={'/dashboard?tab=profile'}>
                 <SidebarItem active={tab === 'profile'} 
                   icon={HiUser} 
@@ -50,12 +51,23 @@ const handleSignOut = async () => {
                     Profile
                 </SidebarItem>
                 </Link>
+                {/* //sidebar posts */}
                 {currentUser.isAdmin && 
                   <Link to={'/dashboard?tab=posts'}>
                   <SidebarItem 
                   icon={HiDocumentText}
                   active={tab=== 'posts'} as='div'>
                     Posts
+                  </SidebarItem>
+                </Link>
+                }
+                  {/* sidebar users */}
+                {currentUser.isAdmin && 
+                  <Link to={'/dashboard?tab=users'}>
+                  <SidebarItem 
+                  icon={HiOutlineUserGroup}
+                  active={tab=== 'users'} as='div'>
+                    Users
                   </SidebarItem>
                 </Link>
                 }
